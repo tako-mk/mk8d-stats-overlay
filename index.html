@@ -27,10 +27,9 @@
         try {
             // APIのURL
             const targetUrl = `https://lounge.mkcentral.com/api/player/details?name=${encodeURIComponent(playerName)}`;
-            
-            // CORSプロキシを経由させる
-            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
-            
+
+            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+
             const res = await fetch(proxyUrl);
             if (!res.ok) throw new Error('Network error');
             
