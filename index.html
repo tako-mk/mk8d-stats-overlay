@@ -28,8 +28,7 @@
             const data = await res.json();
             
             document.getElementById('name').textContent = data.name;
-            document.getElementById('mmr').textContent = data.mmr;
-            document.getElementById('max-mmr').textContent = data.maxMmr;
+            document.getElementById('win_rate').textContent = data.winRate;
         } catch (err) {
             console.error('Failed to fetch stats:', err);
             document.getElementById('name').textContent = 'Error';
