@@ -24,25 +24,25 @@
     const playerName = urlParams.get('name') || 'Vike';
 
     async function fetchStats() {
-    try {
-        const response = await fetch(`https://lounge.mkcentral.com/api/player/details?name=${encodeURIComponent(playerName)}`);
-        
-        console.log("Response status:", response.status); // ステータスコードの確認 (200なら成功, 404なら未検出など)
-
-        if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        try {
+            // APIのURL
+            const targetUrl = `https://lounge.mkcentral.com/api/player/details?name=${encodeURIComponent(playerName)}`;
+            
+            // CORSプロキシを経由させる
+            const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+            
+            const res = await fetch(proxyUrl);
+            if (!res.ok) throw new Error('Network error');
+            
+            const data = await res.json();
+            
+            document.getElementById('name').textContent = data.name;
+            document.getElementById('mmr').textContent = data.mmr;
+            document.getElementById('max-mmr').textContent = data.maxMmr;
+        } catch (err) {
+            console.error('Failed to fetch stats:', err);
+            document.getElementById('name').textContent = 'Error';
         }
-        
-        const data = await response.json();
-        console.log("Fetched data:", data); // 取得データの確認
-
-        document.getElementById('name').textContent = data.name;
-        document.getElementById('mmr').textContent = data.mmr;
-        document.getElementById('max-mmr').textContent = data.maxMmr;
-    } catch (err) {
-        console.error('Fetch error details:', err);
-        document.getElementById('name').textContent = 'Error';
-    }
     }
 
     // 初回取得
