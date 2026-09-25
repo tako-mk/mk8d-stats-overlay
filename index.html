@@ -15,10 +15,15 @@
   </div>
 
   <script>
+    // 1. URLパラメータから player の名前を取得（例: ?name=stardustfall）
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // ★ ここで playerName を定義します（パラメータがない場合のデフォルト値も設定）
+    const playerName = urlParams.get('name') || 'stardustfall';
 
     async function fetchStats() {
         try {
-            // 自身のサーバーの /api/player を呼び出す
+            // 2. 定義した playerName を使って API (/api/player) を呼び出す
             const res = await fetch(`/api/player?name=${encodeURIComponent(playerName)}`);
             
             if (!res.ok) {
@@ -27,18 +32,20 @@
             
             const data = await res.json();
             
+            // 3. 画面上の要素を更新
             document.getElementById('name').textContent = data.name;
-            document.getElementById('win_rate').textContent = data.winRate;
+            document.getElementById('mmr').textContent = data.mmr;
+            document.getElementById('max-mmr').textContent = data.maxMmr;
         } catch (err) {
             console.error('Failed to fetch stats:', err);
             document.getElementById('name').textContent = 'Error';
         }
     }
 
-    // 初回取得
+    // 初回実行
     fetchStats();
 
-    // 60秒ごとに自動更新（配信中のMMR変動を反映したい場合）
+    // 60秒ごとに自動更新
     setInterval(fetchStats, 60000);
   </script>
 </body>
