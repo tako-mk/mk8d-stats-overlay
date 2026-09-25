@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>MK8DX Lounge Overlay</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="overlay">
+    <div class="player-name" id="name">Loading...</div>
+    <div class="stats">
+      <span class="label">MMR:</span>
+      <span class="value" id="mmr">-</span>
+    </div>
+    <div class="stats">
+      <span class="label">MAX:</span>
+      <span class="value" id="max-mmr">-</span>
+    </div>
+  </div>
+
+  <script>
+    // URLパラメータからプレイヤー名を取得 (例: ?name=Vike)
+    const urlParams = new URLSearchParams(window.location.search);
+    const playerName = urlParams.get('name') || 'Vike';
+
+    async function fetchStats() {
+      try {
+        const res = await fetch(`https://www.mk8dx-lounge.com/api/player/details?name=${encodeURIComponent(playerName)}`);
+        if (!res.ok) throw new Error('Network error');
+        
+        const data = await res.json();
+        
+        document.getElementById('name').textContent = data.name;
+        document.getElementById('mmr').textContent = data.mmr;
+        document.getElementById('max-mmr').textContent = data.maxMmr;
+      } catch (err) {
+        console.error('Failed to fetch stats:', err);
+        document.getElementById('name').textContent = 'Error';
+      }
+    }
+
+    // 初回取得
+    fetchStats();
+
+    // 60秒ごとに自動更新（配信中のMMR変動を反映したい場合）
+    setInterval(fetchStats, 60000);
+  </script>
+</body>
+</html>

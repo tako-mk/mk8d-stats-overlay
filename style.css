@@ -1,0 +1,38 @@
+body {
+  margin: 0;
+  padding: 0;
+  background-color: transparent; /* 背景を透過させる */
+  font-family: 'Arial', sans-serif;
+  color: #ffffff;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8); /* 文字の視認性を上げる影 */
+  overflow: hidden;
+}
+
+#overlay {
+  display: inline-flex;
+  align-items: center;
+  gap: 15px;
+  background: rgba(0, 0, 0, 0.6); /* 枠の背景を半透明にする */
+  padding: 10px 20px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.player-name {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.stats {
+  font-size: 18px;
+}
+
+.label {
+  color: #aaaaaa;
+  margin-right: 4px;
+}
+
+.value {
+  font-weight: bold;
+  color: #00ffcc;
+}
