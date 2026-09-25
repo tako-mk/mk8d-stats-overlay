@@ -25,13 +25,10 @@
 
     async function fetchStats() {
         try {
-            // APIのURL
-            const targetUrl = `https://lounge.mkcentral.com/api/player/details?name=${encodeURIComponent(playerName)}`;
-
-            const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
-
-            const res = await fetch(proxyUrl);
-            if (!res.ok) throw new Error('Network error');
+            // 自身のドメイン上の /api/player/details を呼び出す
+            const res = await fetch(`/api/player/details?name=${encodeURIComponent(playerName)}`);
+            
+            if (!res.ok) throw new Error(`HTTP Error: ${res.status}`);
             
             const data = await res.json();
             
