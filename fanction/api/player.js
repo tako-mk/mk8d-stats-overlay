@@ -2,7 +2,7 @@ export async function onRequest(context) {
   const url = new URL(context.request.url);
   const name = url.searchParams.get("name") || "stardustfall";
 
-  const targetUrl = `https://lounge.mkcentral.com/api/player/details?name=${encodeURIComponent(name)}`;
+  const targetUrl = `https://www.mk8dx-lounge.com/api/player/details?name=${encodeURIComponent(name)}`;
 
   try {
     const res = await fetch(targetUrl, {
