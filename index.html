@@ -9,35 +9,31 @@
   <div id="overlay">
     <div class="player-name" id="name">Loading...</div>
     <div class="stats">
-      <span class="label">MMR:</span>
-      <span class="value" id="mmr">-</span>
-    </div>
-    <div class="stats">
-      <span class="label">MAX:</span>
-      <span class="value" id="max-mmr">-</span>
+      <span class="label">Win Rate:</span>
+      <span class="value" id="win_rate">-</span>
     </div>
   </div>
 
   <script>
 
     async function fetchStats() {
-    try {
-        const workerUrl = `https://mk8d-stats-overlay.s-takamaru-1020.workers.dev/?name=${encodeURIComponent(playerName)}`;
-        
-        const res = await fetch(workerUrl);
-        if (!res.ok) {
-        throw new Error(`HTTP error! status: ${res.status}`);
+        try {
+            // 自身のサーバーの /api/player を呼び出す
+            const res = await fetch(`/api/player?name=${encodeURIComponent(playerName)}`);
+            
+            if (!res.ok) {
+                throw new Error(`HTTP error! status: ${res.status}`);
+            }
+            
+            const data = await res.json();
+            
+            document.getElementById('name').textContent = data.name;
+            document.getElementById('mmr').textContent = data.mmr;
+            document.getElementById('max-mmr').textContent = data.maxMmr;
+        } catch (err) {
+            console.error('Failed to fetch stats:', err);
+            document.getElementById('name').textContent = 'Error';
         }
-        
-        const data = await res.json();
-        
-        document.getElementById('name').textContent = data.name;
-        document.getElementById('mmr').textContent = data.mmr;
-        document.getElementById('max-mmr').textContent = data.maxMmr;
-    } catch (err) {
-        console.error('Failed to fetch stats:', err);
-        document.getElementById('name').textContent = 'Error';
-    }
     }
 
     // 初回取得
